@@ -28,8 +28,8 @@ var limit  = flag.Int("limit", 10, "The time limit for solving the problems")
 func main() {
      flag.Parse()
      done := time.After(time.Duration(*limit) * time.Second)
-     
-     csvFile, _ := os.Open("/Users/virgiliodevera/go/src/readingcsv/qanda.csv")
+     csvFile, _ := os.Open("qanda.csv")
+     // csvFile, _ := os.Open("/Users/virgiliodevera/go/src/readingcsv/qanda.csv")
      reader := csv.NewReader(bufio.NewReader(csvFile))
 
      counter := 0
