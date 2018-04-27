@@ -14,36 +14,44 @@ import (
 )
 
 
-func convertToInt(x string) int {
-     i, err := strconv.Atoi(x)
-     if err != nil {
-     	return -1
-     }
-     return i
+func getUserAnswer() (int, error) {
+	reader := bufio.NewReader(os.Stdin)
+	num, _ := reader.ReadString('\n')
+	num = strings.Replace(num, "\n", "", -1)
+	ans, err := strconv.Atoi(num)
+	return ans, err
 }
 
+	
+func displayCounter(ctr int) {
+        fmt.Printf("No. of correct answers: %d \n", ctr)
+}
 
 var limit  = flag.Int("limit", 10, "The time limit for solving the problems") 
 
 func main() {
+     /* parse command line flag limit, setup "done" timer channel, create csv reader */	
      flag.Parse()
      done := time.After(time.Duration(*limit) * time.Second)
      csvFile, _ := os.Open("qanda.csv")
-     // csvFile, _ := os.Open("/Users/virgiliodevera/go/src/readingcsv/qanda.csv")
      reader := csv.NewReader(bufio.NewReader(csvFile))
 
-     counter := 0
+     counter := 0  // counter for correct no. of answers
      
      for {
 
          select {
 	      case <-done:
-                   fmt.Printf("No. of correct answers: %d \n", counter)
+		   displayCounter(counter)
 	      	   fmt.Println("Timed out")
 		   os.Exit(0)
               default:
 		   break 
 	 }
+ 
+	 /* read each line of the csv file,
+            line[0] contains "addend1 + addend2"
+            line[1] contains the sum */
 
      	 line, error := reader.Read()
 	 if error == io.EOF {
@@ -54,12 +62,9 @@ func main() {
 	 
 	 fmt.Printf("%s = ", line[0])
 	 /* enter user answer */
-	 reader := bufio.NewReader(os.Stdin)
-	 num, _ := reader.ReadString('\n')
-	 num = strings.Replace(num, "\n", "", -1)
-	 ans, err := strconv.Atoi(num)
+	 ans, err := getUserAnswer() 
 	 if err != nil {
-	    fmt.Printf("There is an issue converting the user response %s to integer.\n", num)
+	    fmt.Printf("There is an issue converting the user response %s to integer.\n", ans) 
          }
 	 
 	 /* get the sum from the line */
@@ -75,6 +80,5 @@ func main() {
          }
 
      }
-     fmt.Printf("\n num of correct answers: %d \n", counter)
-
+     displayCounter(counter)	
 }   
