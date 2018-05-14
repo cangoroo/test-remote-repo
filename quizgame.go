@@ -44,6 +44,7 @@ func main() {
 	    ans, err := strconv.Atoi(num)
 	    if err != nil {
 	       fmt.Printf("There is an issue converting the user response %s to integer.\n", num)
+               os.Exit(1)
             }
 	 
 	    /* get the sum from the line[1], line[1] is c from "a+b, c" line */
