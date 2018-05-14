@@ -38,8 +38,8 @@ func main() {
 	    fmt.Printf("%s = ", line[0])
 	    
 	    /* enter user answer */
-	    reader := bufio.NewReader(os.Stdin)
-	    num, _ := reader.ReadString('\n')
+	    ans_reader := bufio.NewReader(os.Stdin)
+	    num, _ := ans_reader.ReadString('\n')
 	    num = strings.Replace(num, "\n", "", -1)
 	    ans, err := strconv.Atoi(num)
 	    if err != nil {
