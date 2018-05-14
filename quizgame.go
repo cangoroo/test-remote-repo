@@ -13,7 +13,7 @@ import (
      "flag"
 )
 
-var limit  = flag.Int("limit", 10, "The time limit for solving the problems") 
+var limit  = flag.Int("limit", 30, "Default time limit is 30 seconds.") 
 
 func main() {
      flag.Parse() // limit no. of seconds allowed before terminating the app
